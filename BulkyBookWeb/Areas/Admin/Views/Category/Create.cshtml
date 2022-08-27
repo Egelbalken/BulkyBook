@@ -1,0 +1,40 @@
+﻿@model BulkyBook.Models.Category
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post">
+    <div class="p-3 mt-4">
+        <div class="row ob-2">
+            <h2 class="text-primary">Create Category</h2>
+            <hr />
+        </div>
+    </div>
+    <!--
+        Using the inline validation so do not need this.
+    <div asp-validation-summary="All"></div>
+    -->
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-warning"></span>
+    </div>
+     <div class="mb-3">
+        <label asp-for="DisplayOrder"></label>
+        <input asp-for="DisplayOrder" class="form-control"/>
+        <span asp-validation-for="DisplayOrder" class="text-warning"></span>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+    &nbsp;
+    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+</form>
+
+<!--
+    From the a _Partial view a js script checks for Error.
+    Client Side validation scrpits prevent a server request if we have a Error
+-->
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
