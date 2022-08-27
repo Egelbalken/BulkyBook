@@ -24,6 +24,7 @@ namespace BulkyBook.DataAccess.Repository
         public Repository(ApplicationDbContext db)
         {
             _db = db;
+            //_db.shoppingCarts.AsNoTracking()
             //_db.ShoppingCarts.Include(u => u.Product).Include(u=>u.coverType);
             this.dbSet = _db.Set<T>();
         }
@@ -60,6 +61,15 @@ namespace BulkyBook.DataAccess.Repository
             if (tracked)
             {
                 IQueryable<T> query = dbSet;
+
+                if (tracked)
+                {
+                    query = dbSet;
+                }
+                else
+                {
+                    query = dbSet.AsNoTracking();
+                }
 
                 query = query.Where(filter);
                 if (includeProperties != null)
