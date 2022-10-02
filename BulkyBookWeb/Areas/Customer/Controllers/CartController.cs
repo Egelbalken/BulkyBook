@@ -44,6 +44,10 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             return View(shoppingCartVM);
         }
 
+        /// <summary>
+        /// Summery for the cart...
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Summary()
         {
             /*

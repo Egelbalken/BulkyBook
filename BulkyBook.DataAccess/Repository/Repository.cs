@@ -60,7 +60,7 @@ namespace BulkyBook.DataAccess.Repository
         {
             if (tracked)
             {
-                IQueryable<T> query = dbSet;
+                IQueryable<T> query;
 
                 if (tracked)
                 {
