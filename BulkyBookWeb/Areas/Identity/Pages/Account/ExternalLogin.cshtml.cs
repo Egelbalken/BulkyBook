@@ -84,6 +84,32 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Street address")]
+            public string StreetAddress { get; set; }
+
+            [Required]
+            public string City { get; set; }
+
+            [Display(Name = "State or Province")]
+            public string State { get; set; }
+
+            [Required]
+            [Display(Name = "Postal Code")]
+            public string PostalCode { get; set; }
+
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");

@@ -233,8 +233,18 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        // Modify the login user. We do not want to login the new registered user.
+                        if(User.IsInRole(SD.Role_Admin))
+                        {
+                            TempData["Success"] = "New User Created Successfully";
+                            return Page();
+                        }
+                        else
+                        {
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
+                        }
                     }
                 }
                 foreach (var error in result.Errors)
