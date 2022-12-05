@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using BilkyBook.Utility
-@inject IHttpContextAccessor HttpContentAccessor
+@inject IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,12 +49,13 @@
                         <li class="nav-item">
                             <a class="nav-link " asp-area="Admin" asp-controller="Order" asp-action="Index">Manage order</a>
                         </li>
-                        @if (HttpContentAccessor.HttpContext.Session.GetInt32(SD.SessionCart) != null)
+
+                        @if(HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCart) != null)
                         {
                             <li class="nav-item">
                                 <a class=nav-link asp-area="Customer" asp-controller="Cart" asp-action="Index">
                                     <i style="width:40px," class="bi bi-cart"></i> &nbsp
-                                    (@HttpContentAccessor.HttpContext.Session.GetInt32(SD.SessionCart).ToString())
+                                    (@HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCart))
                                 </a>
                             </li>
                         }

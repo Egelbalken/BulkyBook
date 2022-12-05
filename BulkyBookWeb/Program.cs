@@ -20,8 +20,8 @@ builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Str
 /*
  * Customize the Identity service to accept roles
  */
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
-
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -34,13 +34,17 @@ builder.Services.ConfigureApplicationCookie(option =>
     option.AccessDeniedPath = $"/Identity/Account/AccesDenied";
 });
 
+// Cache sessions.
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromSeconds(100);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+   
 });
+
 
 var app = builder.Build();
 
@@ -63,6 +67,7 @@ StripeConfiguration.ApiKey = app.Configuration.GetSection("Stripe")["SecretKey"]
 
 // Needs to be placed here before UseAuthorization
 app.UseAuthentication();
+
 app.UseAuthorization();
 app.UseSession();
 app.MapRazorPages();
