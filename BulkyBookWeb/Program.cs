@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BilkyBook.Utility;
 using Stripe;
+using BulkyBook.DataAccess.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Str
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -63,7 +65,8 @@ app.UseRouting();
 
 // Stripe for paiments  // WOW DONT GET ANY KEY
 StripeConfiguration.ApiKey = app.Configuration.GetSection("Stripe")["SecretKey"];
-
+// Seed the database if not there at start.
+SeedDataBase();
 
 // Needs to be placed here before UseAuthorization
 app.UseAuthentication();
@@ -76,3 +79,11 @@ app.MapControllerRoute(
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+void SeedDataBase()
+{
+    using (var scope = app.Services.CreateScope()) 
+    {
+        var dbInitailizer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitailizer.Initialize();
+    }
+}
